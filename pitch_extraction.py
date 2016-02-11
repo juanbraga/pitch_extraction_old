@@ -5,16 +5,8 @@ import librosa
 import matplotlib.pyplot as plt
 import copy
 
-<<<<<<< HEAD
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer_mono.wav'
-audio_file = "C:/Users/Juan/Documents/FingMaestria/tesis/traditional-dataset-repo/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav"
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin_mono.wav'
-=======
 #audio_file = '../traditional_dataset/density/fragments/density_third_fragment_zoon.wav'
 audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
->>>>>>> c88c007b67d4f2076e26e39b2b189ac19e000e46
 #audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
 audio, sr = librosa.load(audio_file, sr=44100, mono=True)
 
