@@ -7,7 +7,7 @@ import copy
 
 #audio_file = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas_mono.wav'
 #audio_file = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer_mono.wav'
-audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
+audio_file = "C:/Users/Juan/Documents/FingMaestria/tesis/traditional-dataset-repo/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav"
 #audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold_mono.wav'
 #audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin_mono.wav'
 #audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
