@@ -5,9 +5,10 @@ import librosa
 import matplotlib.pyplot as plt
 import copy
 
+#audio_file = '../traditional_dataset/sequenza/fragments/sequenza_tenth_fragment_robison_mono.wav'
 #audio_file = '../traditional_dataset/density/fragments/density_third_fragment_zoon.wav'
-audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
+#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
+audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
 audio, sr = librosa.load(audio_file, sr=44100, mono=True)
 
 #%%
@@ -23,14 +24,8 @@ hop, melody_melodia = data['vector']
 import numpy as np
 timestamps = 8 * 128/44100.0 + np.arange(len(melody_melodia)) * (128/44100.0)
 
-
 melody_hz = copy.deepcopy(melody_melodia)
 melody_hz[melody_melodia<=0] = None
-plt.figure(figsize=(18,6))
-plt.plot(timestamps, melody_hz)
-plt.xlabel('Time (s)')
-plt.ylabel('Frequency (cents relative to 55 Hz)')
-plt.show()
 
 #%%
 import melosynth as ms
@@ -48,3 +43,69 @@ sound2 = sound2.pan(-1)
 combined = sound1.overlay(sound2)
 combined.export("combined.wav", format='wav')
 
+#%%
+import csv
+
+cr = csv.reader(open("../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet.csv","rb"))
+      
+onset=[]
+notes=[]
+
+for row in cr:
+
+    onset.append(row[0]) 
+    notes.append(row[1])
+
+onset = np.array(onset, 'float64')
+
+cr = csv.reader(open("./note_convertion.csv","rb"))
+      
+notation=[]
+frequency=[]
+
+for row in cr:
+
+    notation.append(row[0]) 
+    frequency.append(row[1])
+
+frequency = np.array(frequency, 'float64')
+
+#plt.figure(figsize=(18,6))
+#plt.plot(timestamps, melody_hz)
+#plt.xlabel('Time (s)')
+#plt.ylabel('Frequency')
+#plt.show()
+
+i=0
+melo = np.empty([0,])
+for note in notes:
+    if note=='0':
+        melo = np.r_[melo,0]
+    else:
+        melo = np.r_[melo,frequency[notation.index(note)]]
+    i=i+1
+    
+j=0
+gt = np.empty([len(timestamps),],'float64')
+for i in range(1,len(onset)):
+    while (j<len(timestamps) and (timestamps[j]-(8*128/44100.0))>=onset[i-1] and (timestamps[j]-(8*128/44100.0))<=onset[i]):
+        gt[j]=melo[i-1]
+        j=j+1      
+
+plt.figure(figsize=(18,6))
+plt.plot(timestamps, melody_hz)
+plt.plot(timestamps, gt)
+plt.xlabel('Time (s)')
+plt.ylabel('Frequency')
+plt.show()
+            
+ms.melosynth_pitch(gt, 'melosynth_gt.wav', fs=44100, nHarmonics=1, square=True, useneg=False) 
+sound1 = AudioSegment.from_file(audio_file)
+sound1 = sound1.pan(+1)
+
+sound2 = AudioSegment.from_file("melosynth_gt.wav")
+sound2 = sound2.apply_gain(-10)
+sound2 = sound2.pan(-1)
+
+combined = sound1.overlay(sound2)
+combined.export("combined_gt.wav", format='wav')

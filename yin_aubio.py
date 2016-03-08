@@ -6,16 +6,16 @@ import numpy as np
 from aubio import pitch, freqtomidi
 import copy
 
-#audio_file='melosynth.wav'
+audio_file = '../traditional_dataset/sequenza/fragments/sequenza_tenth_fragment_robison_mono.wav'
 #audio_file = '../traditional_dataset/density/fragments/density_third_fragment_zoon_mono.wav'
-audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
+#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
 #audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
 fs,audio = wav.read(audio_file)
 audio = audio.astype('float32', copy=False)
 
 win_s=2048
-hop_s=1024
-tolerance = 0
+hop_s=0
+tolerance = 0.5
 
 pitch_o = pitch("yin", win_s, hop_s, fs)
 pitch_o.set_unit("Hz")
@@ -39,7 +39,7 @@ for i in range(0,total_frames-1):
     pitches += [pitch]
     confidences += [confidence]
 
-timestamps = np.arange(len(pitches)) * (128/44100.0)
+timestamps = np.arange(len(pitches)) * (2048/44100.0)
 
 pitches = np.array(pitches)
 melody_hz = copy.deepcopy(pitches)
@@ -50,6 +50,22 @@ plt.plot(timestamps, melody_hz)
 plt.xlabel('Time (s)')
 plt.ylabel('Frequency (cents relative to 55 Hz)')
 plt.show()
+
+#%%
+import melosynth as ms
+ms.melosynth_pitch(pitches, 'melosynth.wav', fs=44100, nHarmonics=1, square=True, useneg=False) 
+
+#%%
+from pydub import AudioSegment
+sound1 = AudioSegment.from_file(audio_file)
+sound1 = sound1.pan(+1)
+
+sound2 = AudioSegment.from_file("melosynth.wav")
+sound2 = sound2.apply_gain(-10)
+sound2 = sound2.pan(-1)
+
+combined = sound1.overlay(sound2)
+combined.export("combined.wav", format='wav')
 
 #
 ##print pitches
