@@ -7,9 +7,21 @@ import copy
 
 #audio_file = '../traditional_dataset/sequenza/fragments/sequenza_tenth_fragment_robison_mono.wav'
 #audio_file = '../traditional_dataset/density/fragments/density_third_fragment_zoon.wav'
+
+#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas_mono.wav'
+#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer_mono.wav'
 #audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
-audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
+#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold_mono.wav'
+audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin_mono.wav'
+
+#audio_file = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard_mono.wav'
+#audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
+#audio_file = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal_mono.wav'
+#audio_file = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu_mono.wav'
+#audio_file = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston_mono.wav'
+
 audio, sr = librosa.load(audio_file, sr=44100, mono=True)
+
 
 #%%
 # parameter values are specified by providing a dicionary:
@@ -46,7 +58,7 @@ combined.export("combined.wav", format='wav')
 #%%
 import csv
 
-cr = csv.reader(open("../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet.csv","rb"))
+cr = csv.reader(open("../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin.csv","rb"))
       
 onset=[]
 notes=[]
@@ -85,12 +97,15 @@ for note in notes:
         melo = np.r_[melo,frequency[notation.index(note)]]
     i=i+1
     
+
+#%%
+
 j=0
 gt = np.empty([len(timestamps),],'float64')
 for i in range(1,len(onset)):
     while (j<len(timestamps) and (timestamps[j]-(8*128/44100.0))>=onset[i-1] and (timestamps[j]-(8*128/44100.0))<=onset[i]):
         gt[j]=melo[i-1]
-        j=j+1      
+        j=j+1
 
 plt.figure(figsize=(18,6))
 plt.plot(timestamps, melody_hz)
