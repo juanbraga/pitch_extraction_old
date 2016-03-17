@@ -5,20 +5,23 @@ import librosa
 import matplotlib.pyplot as plt
 import copy
 
-#audio_file = '../traditional_dataset/sequenza/fragments/sequenza_tenth_fragment_robison_mono.wav'
-#audio_file = '../traditional_dataset/density/fragments/density_third_fragment_zoon.wav'
 
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold_mono.wav'
-audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin_mono.wav'
+fragment = '../traditional_dataset/density/fragments/density_first_fragment_zoon'
 
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston_mono.wav'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin'
+
+#fragment = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston'
+
+audio_file = fragment + '_mono.wav'
+gt_file = fragment + '.csv'
 
 audio, sr = librosa.load(audio_file, sr=44100, mono=True)
 
@@ -58,7 +61,7 @@ combined.export("combined.wav", format='wav')
 #%%
 import csv
 
-cr = csv.reader(open("../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin.csv","rb"))
+cr = csv.reader(open(gt_file,"rb"))
       
 onset=[]
 notes=[]

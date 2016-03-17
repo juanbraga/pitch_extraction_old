@@ -6,17 +6,22 @@ import numpy as np
 from aubio import pitch, freqtomidi
 import copy
 
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes_mono.wav'
-#audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold_mono.wav'
-audio_file = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin_mono.wav'
+fragment = '../traditional_dataset/density/fragments/density_first_fragment_zoon'
 
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu_mono.wav'
-#audio_file = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston_mono.wav'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin'
+
+#fragment = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston'
+
+audio_file = fragment + '_mono.wav'
+gt_file = fragment + '.csv'
 
 fs,audio = wav.read(audio_file)
 audio = audio.astype('float32', copy=False)
@@ -53,11 +58,11 @@ pitches = np.array(pitches)
 melody_hz = copy.deepcopy(pitches)
 melody_hz[pitches<=0] = None
 melody_hz[pitches>1200] = None
-plt.figure(figsize=(18,6))
-plt.plot(timestamps, melody_hz)
-plt.xlabel('Time (s)')
-plt.ylabel('Frequency (cents relative to 55 Hz)')
-plt.show()
+#plt.figure(figsize=(18,6))
+#plt.plot(timestamps, melody_hz)
+#plt.xlabel('Time (s)')
+#plt.ylabel('Frequency (cents relative to 55 Hz)')
+#plt.show()
 
 #%%
 import melosynth as ms
@@ -78,7 +83,7 @@ combined.export("combined.wav", format='wav')
 #%%
 import csv
 
-cr = csv.reader(open("../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin.csv","rb"))
+cr = csv.reader(open(gt_file,"rb"))
       
 onset=[]
 notes=[]
