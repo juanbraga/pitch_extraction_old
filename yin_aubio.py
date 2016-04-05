@@ -6,7 +6,7 @@ import numpy as np
 from aubio import pitch, freqtomidi
 import copy
 
-#fragment = '../traditional_dataset/density/fragments/density_first_fragment_zoon'
+fragment = '../traditional_dataset/density/fragments/density_first_fragment_zoon'
 
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas'
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer'
@@ -14,7 +14,7 @@ import copy
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold'
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin'
 
-fragment = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard'
 #fragment = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet'
 #fragment = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal'
 #fragment = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu'
