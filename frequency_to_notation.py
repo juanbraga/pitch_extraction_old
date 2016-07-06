@@ -155,13 +155,11 @@ if __name__ == "__main__":
     int_melonotes=np.round(melonotes)   
     
     plt.figure()
-    plt.plot(timestamps,int_melonotes,'.')
-    plt.plot(timestamps,midigt)
-#    plt.plot(timestamps,melonotes,'.')
-    plt.fill_between(timestamps, midigt, int_melonotes, facecolor='yellow', label='diference', alpha=0.2)
-    plt.grid(which='y')
-    plt.grid(b=True, which='major', color='black', linestyle='--')
-    plt.grid(b=True, which='minor', color='black', linestyle='--', alpha=0.3)
-
+    plt.plot(timestamps,int_melonotes,'.-',color='blue', lw=0.7)
+    plt.plot(timestamps,midigt,'green', lw=1.4)
+    plt.plot(timestamps,melonotes, 'red', lw=0.3)
+    plt.fill_between(timestamps, midigt, int_melonotes, facecolor='cyan', label='diference', alpha=0.2)
+    plt.grid(b=True, which='major', color='black', axis='y', linestyle='-')
+    plt.grid(b=True, which='minor', color='black', axis='y', linestyle='-', alpha=0.3)
     plt.minorticks_on()
     
