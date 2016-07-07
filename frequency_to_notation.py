@@ -11,56 +11,54 @@ import librosa as lr
 
 from aubio import pitch, freqtomidi
 import copy
+import tradataset as td
 
-def load_trdataset_list():
+def pitch_extraction(audio, fs, win, hop)
 
-    ltrdataset=[]    
-    cr = csv.reader(open('../traditional_dataset/dataset.csv',"rb"))
-    for row in cr:
-        ltrdataset.append(row[0]) 
+    audio = audio.astype('float32', copy=False)
+    
+    win_s=win
+    hop_s=hop
+    tolerance = 0.5
+    
+    pitch_o = pitch("yin", win_s, hop_s, fs)
+    pitch_o.set_unit("Hz")
+    pitch_o.set_tolerance(tolerance)
+    
+    pitches = []
+    confidences = []
+    
+    # total number of frames read
+    total_frames = len(audio)/win_s
+    for i in range(0,total_frames-1):
         
-    return ltrdataset
+        samples = audio[i*win_s:(i+1)*win_s]
+        pitch = pitch_o(samples)[0]
+        #pitch = int(round(pitch))
+        confidence = pitch_o.get_confidence()
+        #if confidence < 0.8: pitch = 0.
+        #print "%f %f %f" % (total_frames / float(samplerate), pitch, confidence)
+        pitches += [pitch]
+        confidences += [confidence]
     
-def load_gt(gt_file, t):
+    timestamps = np.arange(len(pitches)) * (2048/fs)
     
-    cr = csv.reader(open(gt_file,"rb"))
-    onset=[]
-    notes=[]
-    for row in cr:
-        onset.append(row[0]) 
-        notes.append(row[1])
-    onset = np.array(onset, 'float32')
-    
-    aux_vad_gt = np.empty([0,], 'int8')
-    for note in notes:
-        if note=='0':
-            aux_vad_gt = np.r_[aux_vad_gt,0]
-        else:
-            aux_vad_gt = np.r_[aux_vad_gt,1]
-    
-    j=0
-    vad_gt = np.empty([len(t),], 'int8')
-    for i in range(1,len(onset)):
-        while (j<len(t) and t[j]>=onset[i-1] and t[j]<=onset[i]):
-            vad_gt[j]=aux_vad_gt[i-1]
-            j=j+1  
-    
-    return vad_gt
-    
-def load_audio(audio_file):
-    
-    fs, audio = wav.read(audio_file)
-#    audio = audio.astype('float64')
-    t = np.arange(len(audio)) * float(1)/fs
-    
-    return audio, t, fs    
+    pitches = np.array(pitches)
+    melody_hz = copy.deepcopy(pitches)
+    melody_hz[pitches<=0] = None
+    melody_hz[pitches>1200] = None
 
+    melonotes = lr.hz_to_midi(melody_hz);
+    int_melonotes=np.round(melonotes) 
+    
+    return int_melonotes
+    
 
 if __name__ == "__main__":  
 
-    ldataset = load_trdataset_list()    
+    ldataset = td.load_list()    
     fragment = ldataset[3]    
-    
+       
     audio_file = fragment + '_mono.wav'
     gt_file = fragment + '.csv'
     
