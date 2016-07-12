@@ -41,7 +41,7 @@ def pitch_extraction(audio, fs, win, hop):
         pitches += [p]
         confidences += [confidence]
     
-    timestamps = np.arange(len(pitches)) * float(hop)/fs
+    timestamps = np.arange(len(pitches)) * float(win_s)/fs
     
     pitches = np.array(pitches)
     melody_hz = copy.deepcopy(pitches)
