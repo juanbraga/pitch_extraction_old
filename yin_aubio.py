@@ -15,8 +15,8 @@ import copy
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin'
 
 #fragment = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard'
-fragment = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet'
-#fragment = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal'
+#fragment = '../traditional_dataset/allemande/fragments/allemande_first_fragment_nicolet'
+fragment = '../traditional_dataset/allemande/fragments/allemande_third_fragment_rampal'
 #fragment = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu'
 #fragment = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston'
 
@@ -155,7 +155,6 @@ sound2 = sound2.pan(-1)
 combined = sound1.overlay(sound2)
 combined.export("combined_gt.wav", format='wav')
 
-#
 ##print pitches
 #from numpy import array, ma
 #import matplotlib.pyplot as plt
