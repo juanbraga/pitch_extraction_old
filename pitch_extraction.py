@@ -11,7 +11,7 @@ import copy
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_first_fragment_douglas'
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_second_fragment_dwyer'
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_third_fragment_rhodes'
-fragment = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold'
+#fragment = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_bernold'
 #fragment = '../traditional_dataset/syrinx/fragments/syrinx_fifth_fragment_bourdin'
 
 #fragment = '../traditional_dataset/allemande/fragments/allemande_second_fragment_gerard'
@@ -20,11 +20,12 @@ fragment = '../traditional_dataset/syrinx/fragments/syrinx_fourth_fragment_berno
 #fragment = '../traditional_dataset/allemande/fragments/allemande_fourth_fragment_larrieu'
 #fragment = '../traditional_dataset/allemande/fragments/allemande_fifth_fragment_preston'
 
+fragment = '../traditional_dataset/sequenza/fragments/sequenza_first_fragment_robison'
+
 audio_file = fragment + '_mono.wav'
 gt_file = fragment + '.csv'
 
 audio, sr = librosa.load(audio_file, sr=44100, mono=True)
-
 
 #%%
 # parameter values are specified by providing a dicionary:
@@ -99,10 +100,8 @@ for note in notes:
     else:
         melo = np.r_[melo,frequency[notation.index(note)]]
     i=i+1
-    
 
 #%%
-
 j=0
 gt = np.empty([len(timestamps),],'float64')
 for i in range(1,len(onset)):

@@ -52,10 +52,40 @@ def pitch_extraction(audio, fs, win, hop):
     int_melonotes=np.round(melonotes) 
 
     int_melonotes[int_melonotes<58] = 0
-    int_melonotes[int_melonotes>96] = 0    
+    int_melonotes[int_melonotes>96] = 0
+
+    #ONSET DETECTION FROM PITCH CONTOUR
+
+    onset_detection=np.zeros([len(int_melonotes,)], dtype='int8')
+    M=0; m=0; k=0; #onset_detection[0]=0
+    for i in range(0,len(int_melonotes)-1):
+        M=M+1
+        k=k+1
+        f0_mean=np.sum(int_melonotes[m:m+M])/float(M)
+        if (np.abs(f0_mean-int_melonotes[k])>0.2) :
+            onset_detection[k-1]=-1
+            onset_detection[k]=1
+            m=k+1
+            M=1
+        else:
+            onset_detection[k]=0
+
+    limits=np.where(onset_detection==1)    
+
+    #PITCH CORRECTION WITH ONSET DETECTION     
+     
+    filtrated_pitch=int_melonotes.copy()
+    for i in range(0, len(limits[0])-1):
+        aux=limits[0][i]
+        aux2=limits[0][i+1]    
+        filtrated_pitch[aux:aux2] = np.median(filtrated_pitch[aux:aux2])
     
-    return int_melonotes, timestamps
+    filtrated_pitch=np.round(filtrated_pitch)
     
+    filtrated_pitch[filtrated_pitch<58] = 0
+    filtrated_pitch[filtrated_pitch>96] = 0       
+    
+    return filtrated_pitch, timestamps
 
 if __name__ == "__main__":  
 
